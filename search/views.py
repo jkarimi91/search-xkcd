@@ -11,9 +11,6 @@ def index(request):
 
 def get_results(request):
     data = load_data('search/data.p')
-    #print nltk.__version__
-    #s = PorterStemmer()
-    #s.stem('oed')
     s = SearchEngine(data)
     query = request.GET['query']
     results = [r['img'] for r in s.search(query)]
