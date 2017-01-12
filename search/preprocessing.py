@@ -1,36 +1,25 @@
-from comic import Comic
-import string
-import pickle
+from nltk import word_tokenize
+from nltk.stem.porter import PorterStemmer
+from string import punctuation
 
-def get_raw_data():
-    data = []
-    c = Comic()
-    data.append(c.json)
-    while c.next_comic_number is not None:
-        print c.comic_number
-        c = Comic(c.next_comic_number)
-        data.append(c.json)
-    return data
+def extract_comic_text(comic):
+    text = [comic['transcript']]
+    if comic['alt'] not in comic['transcript']:
+        text.append(comic['alt'])
+    if comic['title'] not in comic['transcript']:
+        text.append(comic['title'])
+    return ' '.join(text)
 
-def load_data(path):
-    with open(path, 'rb') as f:
-        data = pickle.load(f)
-    return data
+def tokenize(text):
+    tokens = word_tokenize(text)
+    return normalize(tokens)
 
-def restructure(raw_data):
-    result = []
-    for d in raw_data:
-        tmp = {}
-
-        text = [d['transcript']]
-        if d['alt'] not in d['transcript']:
-            text.append(d['alt'])
-        if d['title'] not in d['transcript']:
-            text.append(d['title'])
-
-        tmp['text'] = ' '.join(text)
-        tmp['num'] = d['num']
-        tmp['img'] = d['img']
-        result.append(tmp)
-    return result
-
+def normalize(tokens):
+    normalized_tokens = []
+    stemmer = PorterStemmer()
+    exclude = set(punctuation)
+    for t in tokens:
+        if t not in exclude:
+            t = stemmer.stem(t.lower())
+            normalized_tokens.append(t)
+    return normalized_tokens

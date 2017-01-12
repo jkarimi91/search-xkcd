@@ -20,7 +20,7 @@
         $("#search").click(function(e) {
             e.preventDefault();
             var query = $("#query").val();
-            $.get('/get_results/', {query: query}, function(data){
+            $.get('/search/', {query: query}, function(data){
                 console.log('success');
                 $('#results').html(data);
            });

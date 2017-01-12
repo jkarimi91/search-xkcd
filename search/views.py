@@ -1,17 +1,27 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from preprocessing import load_data
-from search_engine import SearchEngine
-#from sklearn.externals import joblib
-from nltk.stem.porter import PorterStemmer
+from sklearn.externals import joblib
+from sklearn.metrics.pairwise import linear_kernel
+from django.conf import settings
+import os.path
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
-def get_results(request):
-    data = load_data('search/data.p')
-    s = SearchEngine(data)
+def search(request):
     query = request.GET['query']
-    results = [r['img'] for r in s.search(query)]
-    return render(request, 'list.html', {'results': results})
+    search_results = [r['img'] for r in get_search_results(query)]
+    return render(request, 'list.html', {'search_results': search_results})
+
+def get_search_results(query):
+    data_path = 'search/data/'
+    model = joblib.load(os.path.join(settings.DATA_DIR, 'model.p'))
+    tfidf = joblib.load(os.path.join(settings.DATA_DIR, 'tfidf.p'))
+    comics = joblib.load(os.path.join(settings.DATA_DIR, 'comics.p'))
+
+    query = model.transform([query])
+    search_results = linear_kernel(query, tfidf).flatten()
+    indices = search_results.argsort()[::-1]
+    indices = filter(lambda i: search_results[i] > 0, indices)
+    return [comics[i] for i in indices]
