@@ -19,6 +19,5 @@ import search.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index/', search.views.index),
     url(r'^search/', search.views.search),
 ]

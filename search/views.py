@@ -6,11 +6,10 @@ from django.conf import settings
 import os.path
 
 # Create your views here.
-def index(request):
-    return render(request, 'index.html')
-
 def search(request):
-    query = request.GET['query']
+    query = request.GET.get('query')
+    if query is None:
+        return render(request, 'index.html')
     search_results = [r['img'] for r in get_search_results(query)]
     return render(request, 'list.html', {'search_results': search_results})
 

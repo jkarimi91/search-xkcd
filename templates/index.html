@@ -2,24 +2,24 @@
 <html>
 <body>
 
-<form id="search_form">
-    <input id="query" type="search" name="query">
+<form id='search_form'>
+    <input id='query' type='search'>
     <br><br>
-    <input id="search" type="button" value="search">
+    <input type='submit' value='search'>
 </form>
 
-<ul id="results">
+<ul id='results'>
 </ul>
 
 <script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+    src='https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js'>
 </script>
 
 <script type='text/javascript'>
     $(document).ready(function(){
-        $("#search").click(function(e) {
-            e.preventDefault();
-            var query = $("#query").val();
+        $('form').on('submit', function(e) {
+           e.preventDefault();
+            var query = $('#query').val();
             $.get('/search/', {query: query}, function(data){
                 console.log('success');
                 $('#results').html(data);
