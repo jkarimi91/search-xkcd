@@ -1,0 +1,24 @@
+name: xkcd
+channels: !!python/tuple
+- !!python/unicode
+  'defaults'
+dependencies:
+- django=1.10.5=py27_0
+- mkl=11.3.3=0
+- nltk=3.2=py27_0
+- numpy=1.11.2=py27_0
+- openssl=1.0.2j=0
+- pip=9.0.1=py27_1
+- python=2.7.13=0
+- readline=6.2=2
+- requests=2.12.4=py27_0
+- scikit-learn=0.18.1=np111py27_0
+- scipy=0.18.1=np111py27_0
+- setuptools=27.2.0=py27_0
+- six=1.10.0=py27_0
+- sqlite=3.13.0=0
+- tk=8.5.18=0
+- wheel=0.29.0=py27_0
+- zlib=1.2.8=3
+prefix: //anaconda/envs/xkcd
+
