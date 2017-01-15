@@ -19,9 +19,11 @@ pip install -r requirements.txt
 
 # Usage
 
-From the project directory, run the development server
+From the project directory, run
 
 ```
+python manage.py fetch_comics
+python manage.py fit_model
 python manage.py runserver
 ```
 
