@@ -12,7 +12,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         comics = joblib.load(os.path.join(settings.DATA_DIR, 'comics.p'))
-        model = TfidfVectorizer(tokenizer=tokenize, stop_words='english')
+        model = TfidfVectorizer(tokenizer=tokenize, stop_words='english',
+                                ngram_range=(1, 2))
         text_data = [extract_comic_text(c) for c in comics]
         tfidf = model.fit_transform(text_data)
 
